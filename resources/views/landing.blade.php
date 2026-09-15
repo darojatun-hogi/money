@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Fulgenz — Kelola Keuangan Anda dengan Mudah</title>
+		<title>Elips — Kelola Keuangan Anda dengan Mudah</title>
 		<script>
 			document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'mintlify');
 		</script>
@@ -129,7 +129,7 @@
 						class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow group-hover:scale-105 transition-transform">
 						<span class="icon-[tabler--leaf] text-primary-content text-lg"></span>
 					</div>
-					<span class="text-lg font-bold text-base-content tracking-tight">Fulgenz</span>
+					<span class="text-lg font-bold text-base-content tracking-tight">Elips</span>
 				</a>
 
 				{{-- Nav links (desktop) --}}
@@ -576,7 +576,7 @@
 					<div class="w-6 h-6 rounded bg-primary flex items-center justify-center">
 						<span class="icon-[tabler--leaf] text-primary-content text-xs"></span>
 					</div>
-					<span class="font-semibold text-base-content/60">Fulgenz</span>
+					<span class="font-semibold text-base-content/60">Elips</span>
 					<span>— Kelola keuangan, nikmati hidup.</span>
 				</div>
 				<div class="flex items-center gap-4">

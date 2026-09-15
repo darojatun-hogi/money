@@ -14,14 +14,14 @@ class UserSeeder extends Seeder
             [
                 'name'     => 'Admin',
                 'username' => 'admin',
-                'email'    => 'admin@fulgenz.net',
+                'email'    => 'admin@elips.id',
                 'password' => Hash::make('password'),
                 'role'     => 'admin',
             ],
             [
                 'name'     => 'User',
                 'username' => 'user',
-                'email'    => 'user@fulgenz.net',
+                'email'    => 'user@elips.id',
                 'password' => Hash::make('password'),
                 'role'     => 'user',
             ],

@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
             host: '0.0.0.0',
             port: 5173,
             hmr: {
-                host: isLocal ? 'localhost' : 'money.fulgenz.net',
+                host: isLocal ? 'localhost' : 'money.elips.id',
             },
             watch: {
                 usePolling: true,

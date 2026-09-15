@@ -2,7 +2,7 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../css/tour.css';
 
-const TOUR_KEY = 'fulgenz_tour_done';
+const TOUR_KEY = 'elips_tour_done';
 
 function expandSidebar() {
     if (document.body.classList.contains('overlay-minified')) {
@@ -59,7 +59,7 @@ function buildSteps() {
     const steps = [
         {
             popover: {
-                title: '👋 Selamat Datang di Fulgenz!',
+                title: '👋 Selamat Datang di Elips!',
                 description: 'Mari kami tunjukkan fitur-fitur utama aplikasi keuangan ini. Klik <b>Selanjutnya</b> untuk memulai.',
                 side: 'over',
                 align: 'center',
@@ -183,7 +183,7 @@ function buildSteps() {
     steps.push({
         popover: {
             title: '✅ Siap Digunakan!',
-            description: 'Anda sudah mengenal fitur-fitur utama Fulgenz. Selamat mengelola keuangan!<br><br><small>💡 Buka kembali panduan ini lewat tombol <b>Mulai Tour</b> di avatar profil.</small>',
+            description: 'Anda sudah mengenal fitur-fitur utama Elips. Selamat mengelola keuangan!<br><br><small>💡 Buka kembali panduan ini lewat tombol <b>Mulai Tour</b> di avatar profil.</small>',
             side: 'over',
             align: 'center',
         },
@@ -229,7 +229,7 @@ export function startTour() {
 window.startTour = startTour;
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.fulgenzShowTour && !localStorage.getItem(TOUR_KEY)) {
+    if (window.elipsShowTour && !localStorage.getItem(TOUR_KEY)) {
         startTour();
     }
 });

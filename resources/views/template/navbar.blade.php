@@ -7,7 +7,7 @@
 			</button>
 
 			<a class="link link-neutral text-base-content text-xl font-bold no-underline" href="{{ url('/') }}">
-				Fulgenz
+				Elips
 			</a>
 		</div>
 
@@ -84,7 +84,7 @@
 						</a>
 					</li>
 					<li>
-						<button type="button" class="dropdown-item" onclick="localStorage.removeItem('fulgenz_tour_done'); startTour();">
+						<button type="button" class="dropdown-item" onclick="localStorage.removeItem('elips_tour_done'); startTour();">
 							<span class="icon-[tabler--route] size-4"></span>
 							Mulai Tour
 						</button>

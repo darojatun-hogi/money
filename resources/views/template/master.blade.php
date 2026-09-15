@@ -59,7 +59,7 @@
 		</div>
 
 		<script>
-			window.fulgenzShowTour = @json(session()->pull('show_tour', false));
+			window.elipsShowTour = @json(session()->pull('show_tour', false));
 
 			document.addEventListener('DOMContentLoaded', function() {
 				@if (session('success'))
