@@ -9,7 +9,7 @@
 			document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'mintlify');
 		</script>
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
-		<link rel="icon" type="image/png" href="{{ asset('storage/img/favicon.png') }}">
+		<link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 		<style>
 			html {
 				scroll-behavior: smooth;
@@ -227,14 +227,14 @@
 					<div class="relative animate-float-slow">
 						{{--
                         IMAGE DIBUTUHKAN:
-                        Path: public/storage/img/hero-illustration.png
+                        Path: public/images/hero-illustration.png
                         Deskripsi: Ilustrasi bergaya Ghibli — karakter duduk di bukit hijau sambil memegang buku catatan/tablet,
                                    dengan elemen keuangan mengambang di sekitarnya (koin, grafik, dompet).
                                    Background transparan (PNG). Ukuran ideal: 600×500px.
                         Jika belum ada, placeholder akan ditampilkan.
                     --}}
-						@if (file_exists(public_path('storage/img/hero-illustration.png')))
-							<img src="{{ asset('storage/img/hero-illustration.png') }}" alt="Hero Illustration"
+						@if (file_exists(public_path('images/hero-illustration.png')))
+							<img src="{{ asset('images/hero-illustration.png') }}" alt="Hero Illustration"
 								class="w-full max-w-sm sm:max-w-md drop-shadow-2xl" />
 						@else
 							{{-- Placeholder card --}}
@@ -242,7 +242,7 @@
 								class="w-80 h-72 rounded-2xl bg-base-200 border-2 border-dashed border-base-content/20 flex flex-col items-center justify-center gap-3 text-base-content/30">
 								<span class="icon-[tabler--photo] size-12"></span>
 								<span class="text-xs text-center px-4">Tambahkan gambar di:<br><code
-										class="text-xs">public/storage/img/hero-illustration.png</code></span>
+										class="text-xs">public/images/hero-illustration.png</code></span>
 							</div>
 						@endif
 
@@ -504,21 +504,21 @@
 					<div class="flex-1 w-full">
 						{{--
                         IMAGE DIBUTUHKAN:
-                        Path: public/storage/img/dashboard-preview.png
+                        Path: public/images/dashboard-preview.png
                         Deskripsi: Screenshot atau mockup halaman dashboard aplikasi ini.
                                    Tampilkan stat cards + grafik ApexCharts.
                                    Ukuran ideal: 800×500px. Background transparan atau putih.
                         Jika belum ada, placeholder akan ditampilkan.
                     --}}
-						@if (file_exists(public_path('storage/img/dashboard-preview.png')))
-							<img src="{{ asset('storage/img/dashboard-preview.png') }}" alt="Dashboard Preview"
+						@if (file_exists(public_path('images/dashboard-preview.png')))
+							<img src="{{ asset('images/dashboard-preview.png') }}" alt="Dashboard Preview"
 								class="w-full rounded-xl shadow-2xl border border-base-content/10" />
 						@else
 							<div
 								class="w-full h-56 rounded-xl bg-base-100 border-2 border-dashed border-base-content/20 flex flex-col items-center justify-center gap-3 text-base-content/30">
 								<span class="icon-[tabler--screenshot] size-10"></span>
 								<span class="text-xs text-center px-4">Tambahkan screenshot dashboard di:<br><code
-										class="text-xs">public/storage/img/dashboard-preview.png</code></span>
+										class="text-xs">public/images/dashboard-preview.png</code></span>
 							</div>
 						@endif
 					</div>

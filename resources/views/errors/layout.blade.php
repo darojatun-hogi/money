@@ -10,7 +10,7 @@
 			document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'mintlify');
 		</script>
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
-		<link rel="icon" type="image/png" href="{{ asset('storage/img/favicon.png') }}">
+		<link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 	</head>
 
 	<body class="min-h-screen bg-base-100 flex items-center justify-center relative overflow-hidden">
