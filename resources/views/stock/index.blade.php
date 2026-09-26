@@ -46,7 +46,7 @@
 				<tbody>
 					@forelse($stock_indicators as $stock_indicator)
 						<tr class="row-hover">
-							<td>{{ $stock_indicators->firstItem() + $loop->index }}</td>
+							<td>{{ $stock_indicator->id }}</td>
 							<td class="whitespace-nowrap">{{ $stock_indicator->trade_date }}</td>
 							<td class="whitespace-nowrap">
 								<a
@@ -105,6 +105,6 @@
 		</div>
 	</div>
 	<div class="mt-4">
-		{{ $stock_indicators->links('template.pagination') }}
+		{{ $stock_indicators->links() }}
 	</div>
 @endsection

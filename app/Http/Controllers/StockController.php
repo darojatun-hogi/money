@@ -27,14 +27,12 @@ class StockController extends Controller
                 'signal_tags',
             ])
             ->with('stock_summary:id,close')
-            ->when($filters['search'] ?? null, fn ($query, $search) => $query->where('stock_code', 'like', '%'.$search.'%'))
+            ->when($filters['search'] ?? null, fn ($query, $search) => $query->where('stock_code', 'like', $search.'%'))
             ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('trade_date', '>=', $date))
             ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('trade_date', '<=', $date))
             ->orderBy('trade_date','desc')
             ->orderBy('swing_score','desc')
-            ->orderBy('bearish_score','asc')
-            ->orderBy('bow_score','desc')
-            ->paginate(50)
+            ->cursorPaginate(10)
             ->withQueryString();
 
         return view('stock.index',compact('stock_indicators'));
