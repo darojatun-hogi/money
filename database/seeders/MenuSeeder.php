@@ -77,6 +77,16 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => 'view-transactions',
         ]);
 
+        Menu::firstOrCreate(['name' => 'Stock'], [
+            'icon'            => 'tabler:chart-line',
+            'route_name'      => 'stock',
+            'parent_id'       => null,
+            'group'           => 'Finance',
+            'sort_order'      => 4,
+            'is_active'       => true,
+            'permission_name' => null,
+        ]);
+
         $users = Menu::firstOrCreate(['name' => 'Users'], [
             'icon'            => 'tabler:users',
             'route_name'      => 'users.index',
