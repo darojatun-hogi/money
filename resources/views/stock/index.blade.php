@@ -1,19 +1,20 @@
 @php
 	$tagConfigs = [
+	    // ── SWING (bullish) ─────────────────────────────
 	    'volume_spike' => [
 	        'label' => 'Volume Spike',
 	        'badge' => 'badge-primary',
-	        'tooltip' => 'volume_ratio ≥ 2 (+3)',
+	        'tooltip' => 'volume_ratio ≥ 2 & hari naik (+3)',
 	    ],
 	    'golden_cross' => [
 	        'label' => 'Golden Cross',
 	        'badge' => 'badge-primary',
-	        'tooltip' => 'ma5 > ma20 (+2)',
+	        'tooltip' => 'MA5 baru menembus MA20 ke atas (+2)',
 	    ],
 	    'rsi_oversold' => [
 	        'label' => 'RSI Oversold',
 	        'badge' => 'badge-primary',
-	        'tooltip' => 'rsi_14 ≤ 35 (+2)',
+	        'tooltip' => 'RSI(14) ≤ 35 (+2)',
 	    ],
 	    'bullish_close' => [
 	        'label' => 'Bullish Close',
@@ -23,22 +24,44 @@
 	    'foreign_accumulation' => [
 	        'label' => 'Foreign Accumulation',
 	        'badge' => 'badge-primary',
-	        'tooltip' => 'foreign_net_5d > 0 (+2)',
+	        'tooltip' => 'foreign_net_ratio ≥ 5% dari volume 5 hari (+2)',
 	    ],
-	    'uptrend_structure' => [
-	        'label' => 'Uptrend Structure',
+	    'breakout_20d' => [
+	        'label' => 'Breakout 20D',
 	        'badge' => 'badge-primary',
-	        'tooltip' => 'higher high & higher low (+2)',
+	        'tooltip' => 'Close di atas high tertinggi 20 hari (+2)',
 	    ],
+	    'trend_aligned' => [
+	        'label' => 'Trend Aligned',
+	        'badge' => 'badge-primary',
+	        'tooltip' => 'MA20 > MA50 > MA200 (+2)',
+	    ],
+	    'macd_bullish_cross' => [
+	        'label' => 'MACD Bullish Cross',
+	        'badge' => 'badge-primary',
+	        'tooltip' => 'Histogram MACD negatif → positif (+2)',
+	    ],
+	    'gap_up' => [
+	        'label' => 'Gap Up',
+	        'badge' => 'badge-primary',
+	        'tooltip' => 'Gap open ≥ 2% & close ≥ open (+1)',
+	    ],
+	    'outperform_market' => [
+	        'label' => 'Outperform Market',
+	        'badge' => 'badge-primary',
+	        'tooltip' => 'rs_20d ≥ 3% terhadap IHSG (+2)',
+	    ],
+
+	    // ── BEARISH ─────────────────────────────────────
 	    'death_cross' => [
 	        'label' => 'Death Cross',
 	        'badge' => 'badge-error',
-	        'tooltip' => 'ma5 < ma20 (+3)',
+	        'tooltip' => 'MA5 baru menembus MA20 ke bawah (+3)',
 	    ],
 	    'rsi_overbought' => [
 	        'label' => 'RSI Overbought',
 	        'badge' => 'badge-error',
-	        'tooltip' => 'rsi_14 ≥ 70 (+2)',
+	        'tooltip' => 'RSI(14) ≥ 70 (+2)',
 	    ],
 	    'bearish_close' => [
 	        'label' => 'Bearish Close',
@@ -48,42 +71,71 @@
 	    'foreign_distribution' => [
 	        'label' => 'Foreign Distribution',
 	        'badge' => 'badge-error',
-	        'tooltip' => 'foreign_net_5d < 0 (+2)',
+	        'tooltip' => 'foreign_net_ratio ≤ -5% dari volume 5 hari (+2)',
 	    ],
-	    'downtrend_structure' => [
-	        'label' => 'Downtrend Structure',
+	    'breakdown_20d' => [
+	        'label' => 'Breakdown 20D',
 	        'badge' => 'badge-error',
-	        'tooltip' => 'lower high & lower low (+2)',
+	        'tooltip' => 'Close di bawah low terendah 20 hari (+2)',
 	    ],
 	    'volume_distribution' => [
 	        'label' => 'Volume Distribution',
 	        'badge' => 'badge-error',
-	        'tooltip' => 'volume_ratio ≥ 2 dan hari merah (+3)',
+	        'tooltip' => 'volume_ratio ≥ 2, hari turun, close_position ≤ 0.5 (+3)',
 	    ],
+	    'trend_broken' => [
+	        'label' => 'Trend Broken',
+	        'badge' => 'badge-error',
+	        'tooltip' => 'MA20 < MA50 < MA200 (+2)',
+	    ],
+	    'macd_bearish_cross' => [
+	        'label' => 'MACD Bearish Cross',
+	        'badge' => 'badge-error',
+	        'tooltip' => 'Histogram MACD positif → negatif (+2)',
+	    ],
+	    'gap_down' => [
+	        'label' => 'Gap Down',
+	        'badge' => 'badge-error',
+	        'tooltip' => 'Gap open ≤ -2% & close ≤ open (+1)',
+	    ],
+	    'underperform_market' => [
+	        'label' => 'Underperform Market',
+	        'badge' => 'badge-error',
+	        'tooltip' => 'rs_20d ≤ -3% terhadap IHSG (+2)',
+	    ],
+
+	    // ── BUY ON WEAKNESS ─────────────────────────────
 	    'uptrend_intact' => [
 	        'label' => 'Uptrend Intact',
-	        'badge' => 'badge-neutral',
-	        'tooltip' => 'close > ma50 (+2)',
+	        'badge' => 'badge-info',
+	        'tooltip' => 'Close > MA50 (+2)',
 	    ],
 	    'pullback_to_support' => [
 	        'label' => 'Pullback to Support',
-	        'badge' => 'badge-neutral',
-	        'tooltip' => 'close ≤ 1.03 × ma20 dan ≥ bb_lower (+2)',
+	        'badge' => 'badge-info',
+	        'tooltip' => 'Close ≤ MA20 × 1.03 & ≥ Bollinger bawah (+2)',
 	    ],
 	    'volume_dry_up' => [
 	        'label' => 'Volume Dry Up',
-	        'badge' => 'badge-neutral',
-	        'tooltip' => 'hari merah dan volume_ratio ≤ 0.8 (+2)',
+	        'badge' => 'badge-info',
+	        'tooltip' => 'Hari turun & volume_ratio ≤ 0.8 (+2)',
 	    ],
 	    'rsi_neutral_pullback' => [
 	        'label' => 'RSI Neutral Pullback',
-	        'badge' => 'badge-neutral',
-	        'tooltip' => 'rsi_14 antara 40–55 (+1)',
+	        'badge' => 'badge-info',
+	        'tooltip' => 'RSI(14) di 40–55 (+1)',
 	    ],
 	    'foreign_holding_through_dip' => [
-	        'label' => 'Foreign Holding Through Dip',
+	        'label' => 'Foreign Holding',
+	        'badge' => 'badge-info',
+	        'tooltip' => 'Uptrend utuh, net asing 5 hari > 0, hari turun (+2)',
+	    ],
+
+	    // ── INFO (tanpa skor) ───────────────────────────
+	    'illiquid' => [
+	        'label' => 'Illiquid',
 	        'badge' => 'badge-neutral',
-	        'tooltip' => 'uptrend intact, foreign_net_5d > 0, hari merah (+2)',
+	        'tooltip' => 'Rata-rata nilai transaksi 20 hari < Rp 1 miliar (0)',
 	    ],
 	];
 @endphp
@@ -178,9 +230,9 @@
 							</td>
 
 							<!-- Indicators (Right Aligned) -->
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->swing_score, 0) }}</td>
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bearish_score, 0) }}</td>
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bow_score, 0) }}</td>
+							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->swing_score, 0) . '/19' }}</td>
+							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bearish_score, 0) . '/20' }}</td>
+							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bow_score, 0) . '/9' }}</td>
 
 							<!-- Tags (Clean Layout) -->
 							<td>
@@ -190,7 +242,8 @@
 											@php $config = $tagConfigs[$tags]; @endphp
 											<div class="tooltip">
 												<div class="tooltip-toggle cursor-pointer" aria-label="{{ $config['label'] }}">
-													<span class="badge badge-soft {{ $config['badge'] }} text-xs">{{ $tags }}</span>
+													<span
+														class="badge badge-soft {{ $config['badge'] }} text-xs">{{ Str::ucfirst(str_replace('_', ' ', $tags)) }}</span>
 												</div>
 												<span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
 													<span class="tooltip-body">{{ $config['tooltip'] }}</span>
