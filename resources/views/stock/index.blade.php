@@ -142,137 +142,155 @@
 @extends('template.master')
 
 @section('content')
-	<!-- Header Halaman -->
-	<div class="mb-5 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-		<div>
-			<h1 class="text-2xl font-bold tracking-tight">Stock List</h1>
-			<p class="text-sm text-base-content/70">Daftar analisis indikator saham harian.</p>
-		</div>
-	</div>
+	<header class="mb-5">
+		<h1 class="text-2xl font-bold tracking-tight">Daftar Saham</h1>
+		<p class="mt-1 text-sm text-base-content/70">Pantau harga penutupan dan skor indikator harian.</p>
+	</header>
 
-	<!-- Main Container -->
-	<div class="w-full rounded-xl border border-base-200 bg-base-100 shadow-sm">
+	<section aria-label="Filter saham" class="w-full rounded-xl border border-base-200 bg-base-100">
+		<form method="GET" action="{{ route('stock') }}" class="grid grid-cols-1 items-end gap-3 p-4 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_auto_auto]">
+			<label class="input input-sm flex h-10 w-full min-w-0 items-center gap-2 rounded-lg border-base-300 sm:col-span-2 xl:col-span-1">
+				<span class="icon-[tabler--search] size-4 shrink-0 text-base-content/50" aria-hidden="true"></span>
+				<span class="sr-only">Cari kode saham</span>
+				<input type="search" name="search" class="min-w-0 grow bg-transparent text-sm outline-none" placeholder="Cari kode saham" value="{{ request('search') }}">
+			</label>
 
-		<!-- Filter Form Bar -->
-		<div class="border-b border-base-200 p-4">
-			<form method="GET" action="{{ route('stock') }}" class="flex flex-wrap items-center gap-3">
+			<div class="grid grid-cols-1 gap-3 sm:col-span-2 sm:grid-cols-2 xl:col-span-1">
+				<label class="input input-sm flex h-10 w-full min-w-0 items-center gap-2 rounded-lg border-base-300">
+					<span class="shrink-0 text-xs font-medium text-base-content/70">Dari</span>
+					<input type="date" name="date_from" class="min-w-0 w-full bg-transparent text-sm outline-none" aria-label="Tanggal awal" value="{{ request('date_from') }}">
+				</label>
+				<label class="input input-sm flex h-10 w-full min-w-0 items-center gap-2 rounded-lg border-base-300">
+					<span class="shrink-0 text-xs font-medium text-base-content/70">Sampai</span>
+					<input type="date" name="date_to" class="min-w-0 w-full bg-transparent text-sm outline-none" aria-label="Tanggal akhir" value="{{ request('date_to') }}">
+				</label>
+			</div>
 
-				<!-- Search Input -->
-				<div class="input input-sm flex w-full items-center gap-2 rounded-lg border-base-300 sm:w-60">
-					<span class="icon-[tabler--search] text-base-content/50 size-4 shrink-0"></span>
-					<input type="search" name="search" class="grow bg-transparent text-xs outline-none"
-						placeholder="Cari kode saham..." value="{{ request('search') }}" />
-				</div>
-
-				<!-- Date Inputs -->
-				<div class="flex items-center gap-2">
-					<label class="input input-sm flex items-center gap-2 rounded-lg border-base-300">
-						<span class="text-xs font-medium text-base-content/60">Dari</span>
-						<input type="date" name="date_from" class="bg-transparent text-xs outline-none"
-							value="{{ request('date_from') }}" />
-					</label>
-					<span class="text-xs text-base-content/40">-</span>
-					<label class="input input-sm flex items-center gap-2 rounded-lg border-base-300">
-						<span class="text-xs font-medium text-base-content/60">Sampai</span>
-						<input type="date" name="date_to" class="bg-transparent text-xs outline-none"
-							value="{{ request('date_to') }}" />
-					</label>
-				</div>
-
-				<!-- Filter Actions -->
-				<button type="submit" class="btn btn-sm btn-primary rounded-lg font-medium">
-					<span class="icon-[tabler--filter] size-4"></span> Filter
-				</button>
-
+			<div class="flex flex-col gap-2 sm:col-span-2 sm:flex-row sm:items-center xl:col-span-1">
+				<button type="submit" class="btn btn-primary btn-sm h-10 min-h-10 w-full rounded-lg font-medium sm:w-auto">Terapkan filter</button>
 				@if (request()->hasAny(['search', 'date_from', 'date_to']))
-					<a href="{{ route('stock') }}" class="btn btn-sm btn-ghost text-xs font-normal text-error hover:bg-error/10">
-						<span class="icon-[tabler--x] size-4"></span> Hapus Filter
-					</a>
+					<a href="{{ route('stock') }}" class="btn btn-ghost btn-sm h-10 min-h-10 w-full rounded-lg text-error hover:bg-error/10 sm:w-auto">Hapus filter</a>
 				@endif
-			</form>
+			</div>
+		</form>
+	</section>
+
+	<section aria-label="Hasil analisis saham" class="mt-4 w-full">
+		<div class="space-y-3 xl:hidden">
+			@forelse($stock_indicators as $stock_indicator)
+				<article class="rounded-xl border border-base-200 bg-base-100 p-4">
+					@php
+						$displayTags = collect($stock_indicator->signal_tags)
+							->filter(fn ($tag) => isset($tagConfigs[$tag]))
+							->values();
+					@endphp
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-sm font-medium text-base-content/70">{{ $stock_indicator->trade_date }}</p>
+						<a href="{{ route('stock', array_merge(request()->query(), ['search' => $stock_indicator->stock_code, 'page' => null])) }}" class="shrink-0 font-bold text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label="Filter kode saham {{ $stock_indicator->stock_code }}">
+							{{ $stock_indicator->stock_code }}
+						</a>
+					</div>
+
+					<div class="mt-3 flex items-baseline justify-between gap-3 border-b border-base-200 pb-3">
+						<span class="text-sm text-base-content/70">Harga penutupan</span>
+						<span class="text-lg font-semibold tabular-nums">Rp {{ number_format($stock_indicator->stock_summary->close ?? 0, 0, ',', '.') }}</span>
+					</div>
+
+					<dl class="grid grid-cols-3 gap-2 py-3 text-sm">
+						<div>
+							<dt class="text-xs text-base-content/70">Swing</dt>
+							<dd class="mt-1 font-mono font-medium tabular-nums">{{ round($stock_indicator->swing_score, 0) }}/19</dd>
+						</div>
+						<div>
+							<dt class="text-xs text-base-content/70">Bearish</dt>
+							<dd class="mt-1 font-mono font-medium tabular-nums">{{ round($stock_indicator->bearish_score, 0) }}/20</dd>
+						</div>
+						<div>
+							<dt class="text-xs text-base-content/70" aria-label="Buy on Weakness">BOW</dt>
+							<dd class="mt-1 font-mono font-medium tabular-nums">{{ round($stock_indicator->bow_score, 0) }}/9</dd>
+						</div>
+					</dl>
+
+					@if ($displayTags->isNotEmpty())
+						<details class="group border-t border-base-200 pt-2">
+							<summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded-sm text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+								<span class="group-open:hidden">Lihat {{ $displayTags->count() }} sinyal</span>
+								<span class="hidden group-open:inline">Sembunyikan sinyal</span>
+								<span class="icon-[tabler--chevron-down] size-4 transition-transform group-open:rotate-180" aria-hidden="true"></span>
+							</summary>
+							<div class="flex flex-wrap gap-1.5 pb-1 pt-2">
+								@foreach ($displayTags as $tag)
+									@php $config = $tagConfigs[$tag]; @endphp
+									<span class="badge badge-soft {{ $config['badge'] }} h-auto max-w-full whitespace-normal break-words py-1 text-left text-xs" title="{{ $config['tooltip'] }}">{{ $config['label'] }}</span>
+								@endforeach
+							</div>
+						</details>
+					@else
+						<p class="border-t border-base-200 pt-3 text-sm text-base-content/60">Belum ada sinyal untuk tanggal ini.</p>
+					@endif
+				</article>
+			@empty
+				<div class="rounded-xl border border-base-200 bg-base-100 px-4 py-10 text-center">
+					<span class="icon-[tabler--database-off] mx-auto mb-2 block size-8 text-base-content/40" aria-hidden="true"></span>
+					<p class="font-medium">Data saham tidak ditemukan.</p>
+					<p class="mt-1 text-sm text-base-content/70">Ubah kode saham atau rentang tanggal, lalu coba lagi.</p>
+				</div>
+			@endforelse
 		</div>
 
-		<!-- Data Table -->
-		<div class="overflow-x-auto">
-			<table class="table table-md w-full" id="main-table">
+		<div class="hidden overflow-x-auto rounded-xl border border-base-200 bg-base-100 xl:block">
+			<table class="table table-md w-full" id="main-table" aria-label="Indikator saham harian">
 				<thead>
-					<tr
-						class="border-b border-base-200 bg-base-200/50 text-xs uppercase tracking-wider font-semibold text-base-content/70">
-						<th class="w-28">Date</th>
-						<th class="w-24">Code</th>
-						<th class="w-28 text-right">Price</th>
-						<th class="w-20 text-right">Swing</th>
-						<th class="w-20 text-right">Bearish</th>
-						<th class="w-20 text-right">BOW</th>
-						<th>Tags</th>
+					<tr class="border-b border-base-200 bg-base-200/50 text-left text-xs font-semibold text-base-content/70">
+						<th class="whitespace-nowrap">Tanggal</th>
+						<th>Kode</th>
+						<th class="whitespace-nowrap text-right">Harga (Rp)</th>
+						<th class="text-right">Swing</th>
+						<th class="text-right">Bearish</th>
+						<th class="text-right">BOW</th>
+						<th>Sinyal</th>
 					</tr>
 				</thead>
-				<tbody class="divide-y divide-base-200 text-xs">
+				<tbody class="divide-y divide-base-200 text-sm">
 					@forelse($stock_indicators as $stock_indicator)
-						<tr class="hover:bg-base-200/30 transition-colors">
-							<!-- Date -->
-							<td class="whitespace-nowrap font-medium text-base-content/80">
-								{{ $stock_indicator->trade_date }}
-							</td>
-
-							<!-- Stock Code -->
+						<tr class="transition-colors hover:bg-base-200/30">
+							<td class="whitespace-nowrap font-medium text-base-content/80">{{ $stock_indicator->trade_date }}</td>
 							<td class="whitespace-nowrap">
-								<a
-									href="{{ route('stock', array_merge(request()->query(), ['search' => $stock_indicator->stock_code, 'page' => null])) }}"
-									class="font-bold text-primary hover:underline" title="Cari {{ $stock_indicator->stock_code }}">
+								<a href="{{ route('stock', array_merge(request()->query(), ['search' => $stock_indicator->stock_code, 'page' => null])) }}" class="font-bold text-primary hover:underline" aria-label="Filter kode saham {{ $stock_indicator->stock_code }}">
 									{{ $stock_indicator->stock_code }}
 								</a>
 							</td>
-
-							<!-- Price (Right Aligned & Formatted) -->
-							<td class="whitespace-nowrap text-right font-mono font-semibold">
-								{{ number_format($stock_indicator->stock_summary->close ?? 0, 0, ',', '.') }}
-							</td>
-
-							<!-- Indicators (Right Aligned) -->
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->swing_score, 0) . '/19' }}</td>
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bearish_score, 0) . '/20' }}</td>
-							<td class="whitespace-nowrap text-right font-mono">{{ round($stock_indicator->bow_score, 0) . '/9' }}</td>
-
-							<!-- Tags (Clean Layout) -->
+							<td class="whitespace-nowrap text-right font-mono font-semibold tabular-nums">{{ number_format($stock_indicator->stock_summary->close ?? 0, 0, ',', '.') }}</td>
+							<td class="whitespace-nowrap text-right font-mono tabular-nums">{{ round($stock_indicator->swing_score, 0) }}/19</td>
+							<td class="whitespace-nowrap text-right font-mono tabular-nums">{{ round($stock_indicator->bearish_score, 0) }}/20</td>
+							<td class="whitespace-nowrap text-right font-mono tabular-nums">{{ round($stock_indicator->bow_score, 0) }}/9</td>
 							<td>
-								<div class="flex flex-wrap gap-1">
-									@forelse($stock_indicator->signal_tags as $tags)
-										@if (isset($tagConfigs[$tags]))
-											@php $config = $tagConfigs[$tags]; @endphp
-											<div class="tooltip">
-												<div class="tooltip-toggle cursor-pointer" aria-label="{{ $config['label'] }}">
-													<span
-														class="badge badge-soft {{ $config['badge'] }} text-xs">{{ Str::ucfirst(str_replace('_', ' ', $tags)) }}</span>
-												</div>
-												<span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
-													<span class="tooltip-body">{{ $config['tooltip'] }}</span>
-												</span>
-											</div>
+								<div class="flex min-w-56 flex-wrap gap-1.5">
+									@forelse($stock_indicator->signal_tags as $tag)
+										@if (isset($tagConfigs[$tag]))
+											@php $config = $tagConfigs[$tag]; @endphp
+											<span class="badge badge-soft {{ $config['badge'] }} h-auto max-w-full whitespace-normal break-words py-1 text-left text-xs" title="{{ $config['tooltip'] }}">{{ $config['label'] }}</span>
 										@endif
 									@empty
-										<span class="text-xs text-gray-500">No tags available</span>
+										<span class="text-sm text-base-content/60">Belum ada sinyal.</span>
 									@endforelse
 								</div>
 							</td>
 						</tr>
 					@empty
 						<tr>
-							<td colspan="7" class="text-center py-10 text-base-content/50">
-								<div class="flex flex-col items-center justify-center gap-2">
-									<span class="icon-[tabler--database-off] size-8 text-base-content/30"></span>
-									<p class="text-sm">Tidak ada data indikator saham ditemukan</p>
-								</div>
+							<td colspan="7" class="py-10 text-center">
+								<p class="font-medium">Data saham tidak ditemukan.</p>
+								<p class="mt-1 text-sm text-base-content/70">Ubah kode saham atau rentang tanggal, lalu coba lagi.</p>
 							</td>
 						</tr>
 					@endforelse
 				</tbody>
 			</table>
 		</div>
+	</section>
 
-		<!-- Footer / Pagination -->
-		<div class="border-t border-base-200 p-4">
-			{{ $stock_indicators->links() }}
-		</div>
+	<div class="mt-4 rounded-xl border border-base-200 bg-base-100 p-3 sm:p-4">
+		{{ $stock_indicators->links() }}
 	</div>
 @endsection

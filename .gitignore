@@ -24,4 +24,7 @@ Homestead.yaml
 Thumbs.db
 docker-compose.override.yml
 CLAUDE.md
+AGENTS.md
+DESIGN.md
+/.codex
 /.secret

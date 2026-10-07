@@ -31,6 +31,10 @@ class TransactionController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('transaction_name_id')) {
+            $query->where('transaction_name_id', $request->transaction_name_id);
+        }
+
         if ($request->filled('date_from')) {
             $query->whereDate('date', '>=', $request->date_from);
         }
@@ -55,9 +59,11 @@ class TransactionController extends Controller
         $wallets    = Wallet::where('user_id', Auth::id())->orderBy('name')->get();
         $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
-        $isFiltered = $request->hasAny(['type', 'wallet_id', 'category_id', 'date_from', 'date_to', 'search']);
+        $isFiltered = $request->hasAny(['type', 'wallet_id', 'category_id', 'transaction_name_id', 'date_from', 'date_to', 'search']);
 
-        return view('transactions.index', compact('transactions', 'wallets', 'categories', 'summary', 'isFiltered'));
+        $transactionNames = TransactionName::where('user_id', Auth::id())->with('category')->orderBy('name')->get();
+
+        return view('transactions.index', compact('transactions', 'wallets', 'categories', 'transactionNames', 'summary', 'isFiltered'));
     }
 
     public function create()

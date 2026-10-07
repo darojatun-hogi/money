@@ -1,5 +1,7 @@
 @extends('template.auth-master')
 
+@section('title', 'Daftar | Elips')
+
 @section('content')
 	<div class="card bg-base-100 shadow-xl border border-base-300">
 		<div class="card-body gap-5">
@@ -11,23 +13,23 @@
 						<span class="icon-[tabler--user-plus] text-primary text-4xl"></span>
 					</div>
 				</div>
-				<h1 class="text-2xl font-bold text-base-content">Create New Account</h1>
-				<p class="text-base-content/60 text-sm">Start your financial journey</p>
+				<h1 class="text-2xl font-bold text-base-content">Buat akun Elips</h1>
+				<p class="text-base-content/60 text-sm">Mulai catat keuanganmu dengan lebih teratur.</p>
 			</div>
 
 			{{-- Form --}}
 			<form method="POST" action="{{ route('register') }}" class="space-y-4">
 				@csrf
 
-				{{-- Name --}}
+				{{-- Nama lengkap --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="name">
-						<span class="label-text font-medium text-base-content">Full Name</span>
+						<span class="label-text font-medium text-base-content">Nama lengkap</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('name') input-error @enderror focus-within:input-primary">
 						<span class="icon-[tabler--user] text-base-content/40"></span>
-						<input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Full Name"
+						<input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Nama lengkap"
 							class="grow bg-transparent outline-none text-base-content placeholder:text-base-content/30" autofocus
 							autocomplete="name" />
 					</label>
@@ -36,15 +38,15 @@
 					@enderror
 				</div>
 
-				{{-- Username --}}
+				{{-- Nama pengguna --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="username">
-						<span class="label-text font-medium text-base-content">Username</span>
+						<span class="label-text font-medium text-base-content">Nama pengguna</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('username') input-error @enderror focus-within:input-primary">
 						<span class="icon-[tabler--user] text-base-content/40"></span>
-						<input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="Username"
+						<input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="Nama pengguna"
 							class="grow bg-transparent outline-none text-base-content placeholder:text-base-content/30"
 							autocomplete="username" />
 					</label>
@@ -56,7 +58,7 @@
 				{{-- Email --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="email">
-						<span class="label-text font-medium text-base-content">Email</span>
+						<span class="label-text font-medium text-base-content">Alamat email</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('email') input-error @enderror focus-within:input-primary">
@@ -70,10 +72,10 @@
 					@enderror
 				</div>
 
-				{{-- Password --}}
+				{{-- Kata sandi --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="password">
-						<span class="label-text font-medium text-base-content">Password</span>
+						<span class="label-text font-medium text-base-content">Kata sandi</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('password') input-error @enderror focus-within:input-primary">
@@ -87,10 +89,10 @@
 					@enderror
 				</div>
 
-				{{-- Confirm Password --}}
+				{{-- Konfirmasi kata sandi --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="password_confirmation">
-						<span class="label-text font-medium text-base-content">Confirm Password</span>
+						<span class="label-text font-medium text-base-content">Konfirmasi kata sandi</span>
 					</label>
 					<label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary">
 						<span class="icon-[tabler--lock] text-base-content/40"></span>
@@ -108,20 +110,20 @@
 					@enderror
 				</div>
 
-				{{-- Submit --}}
+				{{-- Kirim --}}
 				<button type="submit" class="btn btn-primary w-full mt-2">
-					Register Now
+					Buat akun
 				</button>
 			</form>
 
 			{{-- Divider --}}
-			<div class="divider text-base-content/30 text-xs my-1">or</div>
+			<div class="divider text-base-content/30 text-xs my-1">atau</div>
 
 			{{-- Login Link --}}
 			<p class="text-center text-sm text-base-content/60">
-				Already have an account?
+				Sudah punya akun?
 				@if (Route::has('login'))
-					<a href="{{ route('login') }}" class="text-primary font-semibold hover:underline">Sign in here</a>
+					<a href="{{ route('login') }}" class="text-primary font-semibold hover:underline">Masuk</a>
 				@endif
 			</p>
 

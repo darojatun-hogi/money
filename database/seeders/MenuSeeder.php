@@ -77,11 +77,11 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => 'view-transactions',
         ]);
 
-        Menu::firstOrCreate(['name' => 'Stock'], [
-            'icon'            => 'tabler:chart-line',
-            'route_name'      => 'stock',
-            'parent_id'       => null,
-            'group'           => 'Finance',
+		Menu::updateOrCreate(['route_name' => 'stock'], [
+			'name'            => 'Saham',
+			'icon'            => 'tabler:chart-line',
+			'parent_id'       => null,
+			'group'           => 'Finance',
             'sort_order'      => 4,
             'is_active'       => true,
             'permission_name' => null,
@@ -97,13 +97,13 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => 'view-users',
         ]);
 
-        $teams = Menu::firstOrCreate(['name' => 'Teams'], [
-            'icon'            => 'tabler:users-group',
-            'route_name'      => 'teams.index',
-            'parent_id'       => null,
-            'group'           => null,
-            'sort_order'      => 5,
-            'is_active'       => true,
+		Menu::updateOrCreate(['route_name' => 'teams.index'], [
+			'name'            => 'Teams',
+			'icon'            => 'tabler:users-group',
+			'parent_id'       => null,
+			'group'           => null,
+			'sort_order'      => 5,
+			'is_active'       => false,
             'permission_name' => 'view-teams',
         ]);
 

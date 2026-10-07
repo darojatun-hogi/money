@@ -1,5 +1,7 @@
 @extends('template.auth-master')
 
+@section('title', 'Masuk | Elips')
+
 @section('content')
 	<div class="card bg-base-100 shadow-xl border border-base-300">
 		<div class="card-body gap-5">
@@ -11,24 +13,24 @@
 						<span class="icon-[tabler--user] text-primary text-4xl"></span>
 					</div>
 				</div>
-				<h1 class="text-2xl font-bold text-base-content">Welcome Back</h1>
-				<p class="text-base-content/60 text-sm">Sign in to your Money account</p>
+				<h1 class="text-2xl font-bold text-base-content">Masuk ke Elips</h1>
+				<p class="text-base-content/60 text-sm">Lanjutkan mencatat dan memahami keuanganmu.</p>
 			</div>
 
 			{{-- Form --}}
 			<form method="POST" action="{{ route('login') }}" class="space-y-4">
 				@csrf
 
-				{{-- Email or Username --}}
+				{{-- Email atau nama pengguna --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="username">
-						<span class="label-text font-medium text-base-content">Email or Username</span>
+						<span class="label-text font-medium text-base-content">Email atau nama pengguna</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('username') input-error @enderror focus-within:input-primary">
 						<span class="icon-[tabler--user] text-base-content/40"></span>
 						<input id="username" type="text" name="username" value="{{ old('username') }}"
-							placeholder="email@example.com or username"
+							placeholder="Email atau nama pengguna"
 							class="grow bg-transparent outline-none text-base-content placeholder:text-base-content/30" autofocus
 							autocomplete="username" />
 					</label>
@@ -37,10 +39,10 @@
 					@enderror
 				</div>
 
-				{{-- Password --}}
+				{{-- Kata sandi --}}
 				<div class="form-control gap-1.5">
 					<label class="label pb-0" for="password">
-						<span class="label-text font-medium text-base-content">Password</span>
+						<span class="label-text font-medium text-base-content">Kata sandi</span>
 					</label>
 					<label
 						class="input input-bordered w-full flex items-center gap-2 @error('password') input-error @enderror focus-within:input-primary">
@@ -54,31 +56,31 @@
 					@enderror
 				</div>
 
-				{{-- Remember Me & Forgot Password --}}
+				{{-- Ingat saya dan lupa kata sandi --}}
 				<div class="flex items-center justify-between">
 					<label class="flex items-center gap-2 cursor-pointer">
 						<input type="checkbox" name="remember" class="checkbox checkbox-primary checkbox-sm" />
-						<span class="text-sm text-base-content/70">Remember me</span>
+						<span class="text-sm text-base-content/70">Ingat saya</span>
 					</label>
 					<a href="{{ route('password.request') }}" class="text-sm text-primary hover:underline">
-						Forget password?
+						Lupa kata sandi?
 					</a>
 				</div>
 
-				{{-- Submit --}}
+				{{-- Kirim --}}
 				<button type="submit" class="btn btn-primary w-full mt-2">
-					Sign In
+					Masuk
 				</button>
 			</form>
 
 			{{-- Divider --}}
-			<div class="divider text-base-content/30 text-xs my-1">or</div>
+			<div class="divider text-base-content/30 text-xs my-1">atau</div>
 
 			{{-- Register Link --}}
 			<p class="text-center text-sm text-base-content/60">
-				Don't have an account?
+				Belum punya akun?
 				@if (Route::has('register'))
-					<a href="{{ route('register') }}" class="text-primary font-semibold hover:underline">Register now</a>
+					<a href="{{ route('register') }}" class="text-primary font-semibold hover:underline">Buat akun</a>
 				@endif
 			</p>
 

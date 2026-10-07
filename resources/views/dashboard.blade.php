@@ -1,5 +1,7 @@
 @extends('template.master')
 
+@section('title', 'Dashboard | Elips')
+
 @section('content')
 	@php
 		$fmt = fn($n) => ($n < 0 ? '-' : '') . number_format(abs($n), 0, ',', '.');
@@ -9,8 +11,7 @@
 	{{-- Header --}}
 	<div class="pb-4">
 		<h1 class="text-2xl font-semibold tracking-tight">Dashboard</h1>
-		<p class="text-base-content/70 mt-1">Selamat datang, {{ auth()->user()->name ?? 'User' }}! Berikut ringkasan keuangan
-			Anda.</p>
+		<p class="text-base-content/70 mt-1">Selamat datang, {{ auth()->user()->name ?? 'kamu' }}. Berikut ringkasan keuanganmu.</p>
 	</div>
 
 	{{-- Stat Cards --}}
