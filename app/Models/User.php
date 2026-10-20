@@ -9,8 +9,6 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -18,6 +16,9 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasApiTokens;
+
+    // Data auth terpusat di Supabase, data keuangan tetap di MySQL
+    protected $connection = 'supabase';
 
     public function sendEmailVerificationNotification(): void
     {
@@ -49,17 +50,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return true;
         }
         return !is_null($this->email_verified_at);
-    }
-
-    public function teams(): BelongsToMany
-    {
-        return $this->belongsToMany(Team::class, 'team_user')
-            ->withPivot('role', 'joined_at');
-    }
-
-    public function ownedTeams(): HasMany
-    {
-        return $this->hasMany(Team::class, 'user_id');
     }
 
     /**

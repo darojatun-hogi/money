@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // users ada di koneksi supabase, jadi tanpa foreign key lintas database
+            $table->foreignId('user_id')->index();
             $table->enum('type', ['kritik', 'saran']);
             $table->string('title');
             $table->text('message');

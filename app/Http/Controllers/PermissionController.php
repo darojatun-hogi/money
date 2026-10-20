@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -31,7 +31,7 @@ class PermissionController extends Controller
     {
         $this->authorize('create', Permission::class);
         $request->validate([
-            'name' => 'required|string|unique:permissions,name',
+            'name' => 'required|string|unique:supabase.permissions,name',
         ]);
 
         Permission::create(['name' => $request->name, 'guard_name' => 'web']);
@@ -51,7 +51,7 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $this->authorize('update', $permission);
         $request->validate([
-            'name' => 'required|string|unique:permissions,name,' . $permission->id,
+            'name' => 'required|string|unique:supabase.permissions,name,' . $permission->id,
         ]);
 
         $permission->update(['name' => $request->name]);

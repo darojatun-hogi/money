@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    // Tabel auth terpusat di Supabase
+    protected $connection = 'supabase';
+
     /**
      * Run the migrations.
      */

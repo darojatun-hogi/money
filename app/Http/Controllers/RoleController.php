@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use App\Models\Role;
+use App\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -33,9 +33,9 @@ class RoleController extends Controller
     {
         $this->authorize('create', Role::class);
         $request->validate([
-            'name' => 'required|string|unique:roles,name',
+            'name' => 'required|string|unique:supabase.roles,name',
             'permissions' => 'array',
-            'permissions.*' => 'exists:permissions,name',
+            'permissions.*' => 'exists:supabase.permissions,name',
         ]);
         
         $role = Role::create(['name' => $request->name]);
@@ -58,9 +58,9 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $this->authorize('update', $role);
         $request->validate([
-            'name' => 'required|string|unique:roles,name,' . $role->id,
+            'name' => 'required|string|unique:supabase.roles,name,' . $role->id,
             'permissions' => 'array',
-            'permissions.*' => 'exists:permissions,name',
+            'permissions.*' => 'exists:supabase.permissions,name',
         ]);
 
         $role->update(['name' => $request->name]);

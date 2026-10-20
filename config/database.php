@@ -17,7 +17,8 @@ return [
     |
     */
 
-    'default' => env('SUPABASE_DB_CONNECTION', 'sqlite'),
+    // mysql = data keuangan, supabase = data auth terpusat, stock = data saham
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +63,23 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+
+        // Database saham (diisi workflow n8n), satu server dengan mysql
+        'stock' => [
+            'driver' => 'mysql',
+            'host' => env('STOCK_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('STOCK_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('STOCK_DB_DATABASE', 'stock'),
+            'username' => env('STOCK_DB_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('STOCK_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
         ],
 
         'mariadb' => [

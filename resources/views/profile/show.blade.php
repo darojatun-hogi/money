@@ -40,22 +40,6 @@
 					@endforeach
 				</div>
 			@endif
-			@if ($user->teams->isNotEmpty())
-				<div class="mt-2 w-full border-t border-base-content/10 pt-4 text-left">
-					<h2 class="mb-2 text-sm font-semibold">Tim</h2>
-					<ul class="space-y-2">
-						@foreach ($user->teams as $team)
-							<li class="flex min-w-0 items-center gap-2 text-sm">
-								<span class="icon-[tabler--users-group] size-4 shrink-0 text-base-content/50" aria-hidden="true"></span>
-								<span class="min-w-0 flex-1 break-words">{{ $team->name }}</span>
-								@if ($team->pivot->role)
-									<span class="badge badge-soft badge-neutral shrink-0 rounded-sm text-xs">{{ $team->pivot->role }}</span>
-								@endif
-							</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
 		</section>
 
 		<section aria-labelledby="profile-form-title" class="min-w-0 rounded-lg border border-base-content/15 bg-base-100 p-5 sm:p-6 lg:col-span-2">

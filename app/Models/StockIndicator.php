@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StockIndicator extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'stock';
     protected $casts = [
         'signal_tags' => 'array'
     ];

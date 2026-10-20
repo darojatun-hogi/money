@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -39,8 +38,7 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
         $roles = Role::orderBy('name')->get();
-        $teams = Team::orderBy('name')->get();
-        return view('users.create', compact('roles', 'teams'));
+        return view('users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -48,11 +46,11 @@ class UserController extends Controller
         $this->authorize('create', User::class);
         $request->validate([
             'name'     => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username|alpha_dash',
-            'email'    => 'required|email|unique:users,email',
+            'username' => 'required|string|max:255|unique:supabase.users,username|alpha_dash',
+            'email'    => 'required|email|unique:supabase.users,email',
             'password' => ['required', Password::min(8)],
             'roles'    => 'nullable|array',
-            'roles.*'  => 'exists:roles,name',
+            'roles.*'  => 'exists:supabase.roles,name',
         ]);
 
         $user = User::create([
@@ -72,9 +70,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $this->authorize('update', $user);
         $roles        = Role::orderBy('name')->get();
-        $teams        = Team::orderBy('name')->get();
         $currentRoles = $user->roles->pluck('name')->toArray();
-        return view('users.edit', compact('user', 'roles', 'teams', 'currentRoles'));
+        return view('users.edit', compact('user', 'roles', 'currentRoles'));
     }
 
     public function update(Request $request, string $id)
@@ -83,12 +80,11 @@ class UserController extends Controller
         $this->authorize('update', $user);
         $request->validate([
             'name'     => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $user->id . '|alpha_dash',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:supabase.users,username,' . $user->id . '|alpha_dash',
+            'email'    => 'required|email|unique:supabase.users,email,' . $user->id,
             'password' => ['nullable', Password::min(8)],
             'roles'    => 'required|array',
-            'roles.*'  => 'exists:roles,name',
-            'team_id'  => 'nullable|exists:teams,id',
+            'roles.*'  => 'exists:supabase.roles,name',
         ]);
 
         $user->update([

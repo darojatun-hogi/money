@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Wallet extends Model
 {
-    protected $fillable = ['name', 'description', 'balance', 'user_id', 'team_id'];
+    protected $fillable = ['name', 'description', 'balance', 'user_id'];
 
     protected static function booted(): void
     {
@@ -28,11 +28,6 @@ class Wallet extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function team(): BelongsTo
-    {
-        return $this->belongsTo(Team::class);
     }
 
     public function transactions(): HasMany

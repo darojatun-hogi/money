@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,7 +14,6 @@ class PermissionSeeder extends Seeder
             'view-users',    'create-users',    'edit-users',    'delete-users',
             'view-roles',    'create-roles',    'edit-roles',    'delete-roles',
             'view-permissions', 'create-permissions', 'edit-permissions', 'delete-permissions',
-            'view-teams',    'create-teams',    'edit-teams',    'delete-teams',
             'view-menus',    'create-menus',    'edit-menus',    'delete-menus',
             // Finance permissions
             'view-categories',        'create-categories',        'edit-categories',        'delete-categories',

@@ -9,7 +9,6 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionNameController;
 use App\Http\Controllers\UserController;
@@ -68,10 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', UserController::class)->except(['show']);
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::resource('permissions', PermissionController::class)->except(['show']);
-    Route::resource('teams', TeamController::class);
     Route::resource('menus', MenuController::class)->except(['show']);
-    Route::post('teams/{team}/members', [TeamController::class, 'addMember'])->name('teams.members.add');
-    Route::delete('teams/{team}/members/{user}', [TeamController::class, 'removeMember'])->name('teams.members.remove');
 
     // Finance
     Route::resource('categories', CategoryController::class)->except(['show']);

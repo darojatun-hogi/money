@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $user = Auth::user()->load('roles', 'teams');
+        $user = Auth::user()->load('roles');
         $hasToken = $user->tokens()->exists();
         return view('profile.show', compact('user', 'hasToken'));
     }
@@ -22,8 +22,8 @@ class ProfileController extends Controller
 
         $request->validate([
             'name'     => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $user->id . '|alpha_dash',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:supabase.users,username,' . $user->id . '|alpha_dash',
+            'email'    => 'required|email|unique:supabase.users,email,' . $user->id,
             'password' => ['nullable', Password::min(8)],
         ]);
 

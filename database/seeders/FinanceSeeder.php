@@ -367,7 +367,6 @@ class FinanceSeeder extends Seeder
             'description'         => $description,
             'date'                => $date,
             'user_id'             => $user->id,
-            'team_id'             => null,
         ];
     }
 
@@ -383,7 +382,6 @@ class FinanceSeeder extends Seeder
             'description'         => $description,
             'date'                => $date,
             'user_id'             => $user->id,
-            'team_id'             => null,
         ];
     }
 

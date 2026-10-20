@@ -19,9 +19,8 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('description')->nullable();
             $table->date('date');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            // team_id disiapkan untuk grouping keuangan per tim di masa depan
-            $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
+            // users ada di koneksi supabase, jadi tanpa foreign key lintas database
+            $table->foreignId('user_id')->index();
             $table->timestamps();
         });
     }

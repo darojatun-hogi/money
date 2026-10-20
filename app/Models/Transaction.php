@@ -11,7 +11,7 @@ class Transaction extends Model
     protected $fillable = [
         'type', 'amount', 'transfer_fee', 'fee_bearer', 'wallet_id', 'to_wallet_id',
         'transaction_name_id', 'category_id', 'description',
-        'date', 'user_id', 'team_id',
+        'date', 'user_id',
     ];
 
     protected $casts = [
@@ -55,11 +55,6 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function team(): BelongsTo
-    {
-        return $this->belongsTo(Team::class);
     }
 
     public function getTypeLabelAttribute(): string

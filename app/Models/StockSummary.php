@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\hasOne;
 
 class StockSummary extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'stock';
 
     public function stock_indicator(): hasOne
     {

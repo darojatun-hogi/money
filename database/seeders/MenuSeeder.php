@@ -97,16 +97,6 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => 'view-users',
         ]);
 
-		Menu::updateOrCreate(['route_name' => 'teams.index'], [
-			'name'            => 'Teams',
-			'icon'            => 'tabler:users-group',
-			'parent_id'       => null,
-			'group'           => null,
-			'sort_order'      => 5,
-			'is_active'       => false,
-            'permission_name' => 'view-teams',
-        ]);
-
         // Dropdown parent — no route, no permission (visibility governed by children)
         $rolesParent = Menu::firstOrCreate(['name' => 'Roles & Permission'], [
             'icon'            => 'tabler:shield-lock',

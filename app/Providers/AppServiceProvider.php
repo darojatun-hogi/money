@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Feedback;
 use App\Models\Menu;
+use App\Models\PersonalAccessToken;
 use App\Models\Transaction;
 use App\Models\TransactionName;
 use App\Models\Wallet;
@@ -24,8 +25,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Laravel\Sanctum\Sanctum;
+use App\Models\Permission;
+use App\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
         Gate::policy(Role::class, RolePolicy::class);
         Gate::policy(Permission::class, PermissionPolicy::class);
