@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApiTokenController;
-use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
@@ -9,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SsoController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionNameController;
 use App\Http\Controllers\UserController;
@@ -34,23 +34,12 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/login',[AuthenticationController::class,'index'])->name('login');
-Route::post('/login',[AuthenticationController::class,'login'])->name('login.post');
-Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
-
-Route::get('/register',[AuthenticationController::class,'register'])->name('register');
-Route::post('/register',[AuthenticationController::class,'registerProcess'])->name('register.post');
-
-Route::get('/forget-password', [AuthenticationController::class, 'resetPassword'])->name('password.request');
-Route::post('/forget-password', [AuthenticationController::class, 'sendResetLink'])->name('password.email');
-Route::get('/reset-password/{token}', [AuthenticationController::class, 'showResetPasswordForm'])->name('password.reset');
-Route::post('/reset-password', [AuthenticationController::class, 'processResetPassword'])->name('password.update');
-
-Route::middleware(['auth', 'app.access'])->group(function () {
-    Route::get('/email/verify', [AuthenticationController::class, 'verifyNotice'])->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', [AuthenticationController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
-    Route::post('/email/verification-notification', [AuthenticationController::class, 'resendVerification'])->middleware('throttle:6,1')->name('verification.send');
-});
+// SSO: login, register, reset password, dan verifikasi email ditangani hub (config/sso.php)
+Route::get('/login', [SsoController::class, 'login'])->name('login');
+Route::get('/register', [SsoController::class, 'register'])->name('register');
+Route::get('/forget-password', [SsoController::class, 'forgotPassword'])->name('password.request');
+Route::get('/email/verify', [SsoController::class, 'verifyEmail'])->middleware('auth')->name('verification.notice');
+Route::get('/logout', [SsoController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'app.access', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

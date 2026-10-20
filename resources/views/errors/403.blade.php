@@ -43,9 +43,9 @@
             Kembali
         </a>
         @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-warning gap-2">
+            <a href="{{ \App\Support\Sso::hubUrl('dashboard') }}" class="btn btn-warning gap-2">
                 <span class="icon-[tabler--home] size-4"></span>
-                Dashboard
+                Halaman Akun
             </a>
         @else
             <a href="{{ route('login') }}" class="btn btn-warning gap-2">

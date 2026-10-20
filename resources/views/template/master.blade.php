@@ -59,7 +59,7 @@
 		</div>
 
 		<script>
-			window.elipsShowTour = @json(session()->pull('show_tour', false));
+			window.elipsShowTour = @json($showTour);
 
 			document.addEventListener('DOMContentLoaded', function() {
 				@if (session('success'))

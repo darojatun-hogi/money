@@ -12,6 +12,9 @@ return [
 
     'super_admin_role' => 'super-admin',
 
+    // SSO: user yang sudah login (di app lain) otomatis diberi role "<app>.user" saat pertama membuka app ini
+    'auto_grant' => (bool) env('ACCESS_AUTO_GRANT', true),
+
     // Permission identitas yang dipakai bersama oleh semua app (tanpa awalan app)
     'shared_permissions' => [
         'users.view', 'users.create', 'users.edit', 'users.delete',
