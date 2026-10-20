@@ -87,9 +87,10 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => null,
         ]);
 
-        $users = Menu::firstOrCreate(['name' => 'Users'], [
-            'icon'            => 'tabler:users',
-            'route_name'      => 'users.index',
+        // User, role & permission dikelola di hub SSO (auth.elips.id)
+        $users = Menu::firstOrCreate(['name' => 'Kelola Akses'], [
+            'icon'            => 'tabler:shield-lock',
+            'route_name'      => 'access.manage',
             'parent_id'       => null,
             'group'           => 'Access Management',
             'sort_order'      => 4,
@@ -98,7 +99,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
         ]);
 
         // Dropdown parent — no route, no permission (visibility governed by children)
-        $rolesParent = Menu::firstOrCreate(['name' => 'Roles & Permission'], [
+        $rolesParent = Menu::firstOrCreate(['name' => 'Pengaturan'], [
             'icon'            => 'tabler:shield-lock',
             'route_name'      => null,
             'parent_id'       => null,
@@ -108,26 +109,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => null,
         ]);
 
-        // Children of Roles & Permission
-        Menu::firstOrCreate(['name' => 'Roles', 'parent_id' => $rolesParent->id], [
-            'icon'            => 'tabler:user-shield',
-            'route_name'      => 'roles.index',
-            'group'           => null,
-            'sort_order'      => 1,
-            'is_active'       => true,
-            'permission_name' => 'roles.view',
-        ]);
-
-        Menu::firstOrCreate(['name' => 'Permissions', 'parent_id' => $rolesParent->id], [
-            'icon'            => 'tabler:key',
-            'route_name'      => 'permissions.index',
-            'group'           => null,
-            'sort_order'      => 2,
-            'is_active'       => true,
-            'permission_name' => 'permissions.view',
-        ]);
-
-        // Menus management (child of Roles & Permission dropdown)
+        // Menus management (child of Pengaturan dropdown)
         Menu::firstOrCreate(['name' => 'Menus', 'parent_id' => $rolesParent->id], [
             'icon'            => 'tabler:layout-sidebar',
             'route_name'      => 'menus.index',

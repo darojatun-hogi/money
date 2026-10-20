@@ -61,7 +61,7 @@
 				@if (!$isParent)
 					{{-- Simple link --}}
 					<li>
-						<a href="{{ $menu->route_name ? route($menu->route_name) : '#' }}"
+						<a href="{{ $menu->route_name && Route::has($menu->route_name) ? route($menu->route_name) : '#' }}"
 							class="{{ $menu->route_pattern && request()->routeIs($menu->route_pattern) ? 'active bg-primary/10 text-primary' : '' }}">
 							<iconify-icon icon="{{ $menu->icon }}" width="20" height="20"></iconify-icon>
 							<span class="overlay-minified:hidden">{{ $menu->name }}</span>
@@ -88,7 +88,7 @@
 							@foreach ($menu->children->where('is_active', true) as $child)
 								@if (!$child->permission_name || (auth()->check() && auth()->user()->can($child->permission_name)))
 									<li>
-										<a href="{{ $child->route_name ? route($child->route_name) : '#' }}"
+										<a href="{{ $child->route_name && Route::has($child->route_name) ? route($child->route_name) : '#' }}"
 											class="{{ $child->route_pattern && request()->routeIs($child->route_pattern) ? 'active bg-primary/10 text-primary' : 'text-base-content' }}">
 											<iconify-icon icon="{{ $child->icon }}" width="20" height="20"></iconify-icon>
 											{{ $child->name }}

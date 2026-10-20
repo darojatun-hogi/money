@@ -14,8 +14,6 @@ use App\Observers\MenuObserver;
 use App\Policies\CategoryPolicy;
 use App\Policies\FeedbackPolicy;
 use App\Policies\MenuPolicy;
-use App\Policies\PermissionPolicy;
-use App\Policies\RolePolicy;
 use App\Policies\TransactionNamePolicy;
 use App\Policies\TransactionPolicy;
 use App\Policies\WalletPolicy;
@@ -45,8 +43,6 @@ class AppServiceProvider extends ServiceProvider
         // super-admin berlaku di semua app yang memakai tabel auth bersama
         Gate::before(fn (User $user) => $user->hasRole(config('access.super_admin_role')) ? true : null);
 
-        Gate::policy(Role::class, RolePolicy::class);
-        Gate::policy(Permission::class, PermissionPolicy::class);
         Gate::policy(Menu::class, MenuPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(TransactionName::class, TransactionNamePolicy::class);

@@ -5,13 +5,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionNameController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\TestMail;
@@ -53,9 +50,8 @@ Route::middleware(['auth', 'app.access', 'verified'])->group(function () {
     Route::post('/profile/api-token/reset', [ApiTokenController::class, 'reset'])->name('api-token.reset');
     Route::delete('/profile/api-token', [ApiTokenController::class, 'revoke'])->name('api-token.revoke');
 
-    Route::resource('users', UserController::class)->except(['show']);
-    Route::resource('roles', RoleController::class)->except(['show']);
-    Route::resource('permissions', PermissionController::class)->except(['show']);
+    // User, role, dan permission money dikelola terpusat di hub (auth.elips.id)
+    Route::get('/access', [SsoController::class, 'manageAccess'])->name('access.manage');
     Route::resource('menus', MenuController::class)->except(['show']);
 
     // Finance
