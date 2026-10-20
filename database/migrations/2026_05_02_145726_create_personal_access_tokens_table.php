@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('personal_access_tokens');
+        // Tabel pusat di Supabase dipakai semua app: rollback dari satu app tidak boleh menghapus/mengubahnya
     }
 };

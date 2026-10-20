@@ -65,19 +65,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        $db = DB::connection($this->connection);
-
-        $db->transaction(function () use ($db) {
-            foreach (array_flip($this->permissions) as $new => $old) {
-                $this->rename($db, 'permissions', $new, $old);
-            }
-            foreach (array_flip($this->roles) as $new => $old) {
-                $this->rename($db, 'roles', $new, $old);
-            }
-            $db->table('permissions')->where('name', 'money.access')->delete();
-        });
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        // Tabel pusat di Supabase dipakai semua app: rollback dari satu app tidak boleh menghapus/mengubahnya
     }
 
     private function rename($db, string $table, string $from, string $to): void
