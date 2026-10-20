@@ -23,7 +23,7 @@
 					</a>
 				@endif
 			</div>
-			@can('create-roles')
+			@can('roles.create')
 				<div class="flex">
 					<a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary rounded-sm">
 						<span class="icon-[tabler--plus] size-5"></span>
@@ -64,13 +64,13 @@
 							</td>
 							<td>{{ $role->created_at->format('d M Y') }}</td>
 							<td>
-								@can('edit-roles')
+								@can('roles.edit')
 									<a href="{{ route('roles.edit', $role->id) }}" class="btn btn-circle btn-text btn-sm hover:text-warning"
 										aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-roles')
+								@can('roles.delete')
 									<button type="button" class="delete-button btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete" data-overlay="#modal-delete"
 										data-action="{{ route('roles.destroy', $role->id) }}">

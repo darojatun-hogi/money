@@ -9,7 +9,7 @@ class FeedbackPolicy
 {
     public function before(User $user): bool|null
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('money.admin')) {
             return true;
         }
 
@@ -18,26 +18,26 @@ class FeedbackPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view-feedbacks');
+        return $user->hasPermissionTo('money.feedbacks.view');
     }
 
     public function view(User $user, Feedback $feedback): bool
     {
-        return $user->hasPermissionTo('view-feedbacks');
+        return $user->hasPermissionTo('money.feedbacks.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-feedbacks');
+        return $user->hasPermissionTo('money.feedbacks.create');
     }
 
     public function update(User $user, Feedback $feedback): bool
     {
-        return $user->hasPermissionTo('edit-feedbacks');
+        return $user->hasPermissionTo('money.feedbacks.edit');
     }
 
     public function delete(User $user, Feedback $feedback): bool
     {
-        return $user->hasPermissionTo('delete-feedbacks');
+        return $user->hasPermissionTo('money.feedbacks.delete');
     }
 }

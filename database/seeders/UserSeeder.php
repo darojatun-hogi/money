@@ -16,14 +16,14 @@ class UserSeeder extends Seeder
                 'username' => 'admin',
                 'email'    => 'admin@elips.id',
                 'password' => Hash::make('password'),
-                'role'     => 'admin',
+                'role'     => 'super-admin',
             ],
             [
                 'name'     => 'User',
                 'username' => 'user',
                 'email'    => 'user@elips.id',
                 'password' => Hash::make('password'),
-                'role'     => 'user',
+                'role'     => 'money.user',
             ],
         ];
 

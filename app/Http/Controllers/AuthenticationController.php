@@ -87,7 +87,7 @@ class AuthenticationController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $user->assignRole('user');
+        $user->assignRole('money.user');
         $user->sendEmailVerificationNotification();
 
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan cek email kamu untuk verifikasi akun.');

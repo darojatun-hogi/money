@@ -8,6 +8,7 @@ use App\Models\Menu;
 use App\Models\PersonalAccessToken;
 use App\Models\Transaction;
 use App\Models\TransactionName;
+use App\Models\User;
 use App\Models\Wallet;
 use App\Observers\MenuObserver;
 use App\Policies\CategoryPolicy;
@@ -43,6 +44,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+
+        // super-admin berlaku di semua app yang memakai tabel auth bersama
+        Gate::before(fn (User $user) => $user->hasRole(config('access.super_admin_role')) ? true : null);
 
         Gate::policy(Role::class, RolePolicy::class);
         Gate::policy(Permission::class, PermissionPolicy::class);

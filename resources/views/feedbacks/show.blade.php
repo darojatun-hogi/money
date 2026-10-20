@@ -60,7 +60,7 @@
 				</div>
 			</div>
 
-			@can('edit-feedbacks')
+			@can('money.feedbacks.edit')
 				<div class="border-base-content/25 rounded-lg border bg-base-100 p-4 shadow-sm">
 					<h3 class="font-semibold mb-3 text-sm uppercase tracking-wider text-base-content/50">Perbarui Status</h3>
 					<form action="{{ route('feedbacks.update', $feedback) }}" method="POST">

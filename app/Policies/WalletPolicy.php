@@ -9,7 +9,7 @@ class WalletPolicy
 {
     public function before(User $user, string $ability): ?bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('money.admin')) {
             return true;
         }
         return null;
@@ -17,23 +17,23 @@ class WalletPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view-wallets');
+        return $user->hasPermissionTo('money.wallets.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-wallets');
+        return $user->hasPermissionTo('money.wallets.create');
     }
 
     public function update(User $user, Wallet $wallet): bool
     {
-        return $user->hasPermissionTo('edit-wallets')
+        return $user->hasPermissionTo('money.wallets.edit')
             && $wallet->user_id === $user->id;
     }
 
     public function delete(User $user, Wallet $wallet): bool
     {
-        return $user->hasPermissionTo('delete-wallets')
+        return $user->hasPermissionTo('money.wallets.delete')
             && $wallet->user_id === $user->id;
     }
 }

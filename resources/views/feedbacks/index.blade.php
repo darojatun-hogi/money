@@ -81,7 +81,7 @@
 									class="btn btn-circle btn-text btn-sm hover:text-info" aria-label="Detail">
 									<span class="icon-[tabler--eye] size-5"></span>
 								</a>
-								@can('delete-feedbacks')
+								@can('money.feedbacks.delete')
 									<button type="button" class="delete-btn btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete"
 										data-overlay="#modal-delete"

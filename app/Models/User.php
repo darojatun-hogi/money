@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,10 +47,32 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasVerifiedEmail(): bool
     {
-        if ($this->hasRole('admin')) {
+        if ($this->hasAnyRole([config('access.super_admin_role'), 'money.admin'])) {
             return true;
         }
         return !is_null($this->email_verified_at);
+    }
+
+    // User yang punya akses ke app ini: role "<app>.*", super-admin, atau permission "<app>.access" langsung
+    public function scopeWithAppAccess(Builder $query): Builder
+    {
+        $app = config('access.app');
+
+        return $query->where(fn (Builder $q) => $q
+            ->whereHas('roles', fn (Builder $r) => $r->where(fn (Builder $x) => $x
+                ->where('name', 'like', $app.'.%')
+                ->orWhere('name', config('access.super_admin_role'))))
+            ->orWhereHas('permissions', fn (Builder $p) => $p->where('name', $app.'.access')));
+    }
+
+    // Ganti role milik app ini saja; role app lain (mis. clip.*) dan super-admin tetap
+    public function syncAppRoles(array $roles): void
+    {
+        $others = $this->roles->pluck('name')
+            ->reject(fn (string $name) => str_starts_with($name, Role::appPrefix()))
+            ->all();
+
+        $this->syncRoles([...$others, ...$roles]);
     }
 
     /**

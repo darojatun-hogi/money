@@ -11,9 +11,9 @@
 				<label class="label mb-1 text-sm font-medium" for="name">Permission Name</label>
 				<input type="text" id="name" name="name" value="{{ old('name') }}"
 					class="input input-bordered w-full rounded-sm @error('name') input-error @enderror"
-					placeholder="Example: view users, edit posts, delete orders" />
-				<p class="text-base-content/50 text-xs mt-1">Use the format: "action - resource" (example: <code>create-roles</code>,
-					<code>view-dashboard</code>)
+					placeholder="Contoh: money.reports.view" />
+				<p class="text-base-content/50 text-xs mt-1">Format: "money.resource.action" (contoh: <code>money.wallets.view</code>,
+					<code>money.reports.create</code>)
 				</p>
 				@error('name')
 					<p class="text-error text-xs mt-1">{{ $message }}</p>

@@ -72,7 +72,7 @@
 				@if (request()->hasAny(['type', 'wallet_id', 'category_id', 'transaction_name_id', 'date_from', 'date_to', 'search']))
 					<a href="{{ route('transactions.index') }}" class="btn btn-ghost btn-sm h-10 min-h-10 rounded-sm text-error">Hapus filter</a>
 				@endif
-				@can('create-transactions')
+				@can('money.transactions.create')
 					<a href="{{ route('transactions.create') }}" class="btn btn-primary btn-sm h-10 min-h-10 rounded-sm"><span class="icon-[tabler--plus] size-4" aria-hidden="true"></span>Tambah transaksi</a>
 				@endcan
 			</div>
@@ -156,12 +156,12 @@
 					</dl>
 
 					<div class="mt-4 flex gap-2 border-t border-base-content/10 pt-3">
-						@can('edit-transactions')
+						@can('money.transactions.edit')
 							<a href="{{ route('transactions.edit', $trx) }}" class="btn btn-ghost btn-sm min-h-10 flex-1 rounded-sm">
 								<span class="icon-[tabler--pencil] size-4" aria-hidden="true"></span>Ubah
 							</a>
 						@endcan
-						@can('delete-transactions')
+						@can('money.transactions.delete')
 							<button type="button" class="delete-btn btn btn-ghost btn-sm min-h-10 flex-1 rounded-sm text-error" aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete" data-overlay="#modal-delete" data-action="{{ route('transactions.destroy', $trx) }}">
 								<span class="icon-[tabler--trash] size-4" aria-hidden="true"></span>Hapus
 							</button>
@@ -172,7 +172,7 @@
 				<div class="rounded-lg border border-base-content/15 px-4 py-10 text-center">
 					<p class="font-medium">Belum ada transaksi yang cocok.</p>
 					<p class="mt-1 text-sm text-base-content/70">Coba ubah filter atau tambahkan transaksi baru.</p>
-					@can('create-transactions')
+					@can('money.transactions.create')
 						<a href="{{ route('transactions.create') }}" class="btn btn-primary btn-sm mt-4">Tambah transaksi</a>
 					@endcan
 				</div>

@@ -9,7 +9,7 @@ class PermissionPolicy
 {
     public function before(User $user, string $ability): ?bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('money.admin')) {
             return true;
         }
         return null;
@@ -17,21 +17,21 @@ class PermissionPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view-permissions');
+        return $user->hasPermissionTo('permissions.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-permissions');
+        return $user->hasPermissionTo('permissions.create');
     }
 
     public function update(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('edit-permissions');
+        return $user->hasPermissionTo('permissions.edit');
     }
 
     public function delete(User $user, Permission $permission): bool
     {
-        return $user->hasPermissionTo('delete-permissions');
+        return $user->hasPermissionTo('permissions.delete');
     }
 }

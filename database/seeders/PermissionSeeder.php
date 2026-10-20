@@ -10,18 +10,18 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'view-dashboard',
-            'view-users',    'create-users',    'edit-users',    'delete-users',
-            'view-roles',    'create-roles',    'edit-roles',    'delete-roles',
-            'view-permissions', 'create-permissions', 'edit-permissions', 'delete-permissions',
-            'view-menus',    'create-menus',    'edit-menus',    'delete-menus',
+            'money.access', 'money.dashboard.view',
+            'users.view',    'users.create',    'users.edit',    'users.delete',
+            'roles.view',    'roles.create',    'roles.edit',    'roles.delete',
+            'permissions.view', 'permissions.create', 'permissions.edit', 'permissions.delete',
+            'money.menus.view',    'money.menus.create',    'money.menus.edit',    'money.menus.delete',
             // Finance permissions
-            'view-categories',        'create-categories',        'edit-categories',        'delete-categories',
-            'view-transaction-names', 'create-transaction-names', 'edit-transaction-names', 'delete-transaction-names',
-            'view-wallets',           'create-wallets',           'edit-wallets',           'delete-wallets',
-            'view-transactions',      'create-transactions',      'edit-transactions',      'delete-transactions',
+            'money.categories.view',        'money.categories.create',        'money.categories.edit',        'money.categories.delete',
+            'money.transaction-names.view', 'money.transaction-names.create', 'money.transaction-names.edit', 'money.transaction-names.delete',
+            'money.wallets.view',           'money.wallets.create',           'money.wallets.edit',           'money.wallets.delete',
+            'money.transactions.view',      'money.transactions.create',      'money.transactions.edit',      'money.transactions.delete',
             // Feedback permissions
-            'view-feedbacks',         'create-feedbacks',         'edit-feedbacks',          'delete-feedbacks',
+            'money.feedbacks.view',         'money.feedbacks.create',         'money.feedbacks.edit',          'money.feedbacks.delete',
         ];
 
         foreach ($permissions as $permission) {

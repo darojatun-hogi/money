@@ -9,7 +9,7 @@ class MenuPolicy
 {
     public function before(User $user): bool|null
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('money.admin')) {
             return true;
         }
 
@@ -18,21 +18,21 @@ class MenuPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view-menus');
+        return $user->hasPermissionTo('money.menus.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-menus');
+        return $user->hasPermissionTo('money.menus.create');
     }
 
     public function update(User $user, Menu $menu): bool
     {
-        return $user->hasPermissionTo('edit-menus');
+        return $user->hasPermissionTo('money.menus.edit');
     }
 
     public function delete(User $user, Menu $menu): bool
     {
-        return $user->hasPermissionTo('delete-menus');
+        return $user->hasPermissionTo('money.menus.delete');
     }
 }

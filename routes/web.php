@@ -46,13 +46,13 @@ Route::post('/forget-password', [AuthenticationController::class, 'sendResetLink
 Route::get('/reset-password/{token}', [AuthenticationController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthenticationController::class, 'processResetPassword'])->name('password.update');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'app.access'])->group(function () {
     Route::get('/email/verify', [AuthenticationController::class, 'verifyNotice'])->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', [AuthenticationController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
     Route::post('/email/verification-notification', [AuthenticationController::class, 'resendVerification'])->middleware('throttle:6,1')->name('verification.send');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'app.access', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/dashboard/wallets', [DashboardController::class, 'walletsPage'])->name('dashboard.wallets');
     Route::post('/dashboard/transactions', [DashboardController::class, 'transactionsPage'])->name('dashboard.transactions');

@@ -41,7 +41,7 @@
 				</div>
 			</form>
 
-			@can('create-transaction-names')
+			@can('money.transaction-names.create')
 				<div class="w-full lg:w-auto">
 					<a href="{{ route('transaction-names.create') }}"
 						class="btn btn-sm btn-primary rounded-sm w-full lg:w-auto justify-center">
@@ -77,13 +77,13 @@
 								@endif
 							</td>
 							<td>
-								@can('edit-transaction-names')
+								@can('money.transaction-names.edit')
 									<a href="{{ route('transaction-names.edit', $tn) }}"
 										class="btn btn-circle btn-text btn-sm hover:text-warning" aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-transaction-names')
+								@can('money.transaction-names.delete')
 									<button type="button" class="delete-btn btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete"
 										data-overlay="#modal-delete"

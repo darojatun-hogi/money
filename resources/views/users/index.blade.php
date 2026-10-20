@@ -37,7 +37,7 @@
 				</div>
 			</form>
 
-			@can('create-users')
+			@can('users.create')
 				<div class="w-full lg:w-auto">
 					<a href="{{ route('users.create') }}" class="btn btn-sm btn-primary rounded-sm w-full lg:w-auto justify-center">
 						<span class="icon-[tabler--plus] size-5"></span>
@@ -90,18 +90,18 @@
 							</td>
 							<td>{{ $user->created_at->format('d M Y') }}</td>
 							<td>
-								@can('edit-users')
+								@can('users.edit')
 									<a href="{{ route('users.edit', $user->id) }}" class="btn btn-circle btn-text btn-sm hover:text-warning"
 										aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-users')
+								@can('users.delete')
 									@if ($user->id !== auth()->id())
 										<button type="button" class="delete-btn btn btn-circle btn-text btn-sm hover:text-error" aria-haspopup="dialog"
 											aria-expanded="false" aria-controls="modal-delete" data-overlay="#modal-delete"
-											data-action="{{ route('users.destroy', $user->id) }}">
-											<span class="icon-[tabler--trash] size-5"></span>
+											data-action="{{ route('users.destroy', $user->id) }}" title="Cabut akses">
+											<span class="icon-[tabler--user-off] size-5"></span>
 										</button>
 									@endif
 								@endcan
@@ -122,21 +122,21 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Confirm Deletion</h3>
+					<h3 class="modal-title">Cabut akses</h3>
 					<button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
 						data-overlay="#modal-delete">
 						<span class="icon-[tabler--x] size-4"></span>
 					</button>
 				</div>
 				<div class="modal-body">
-					Are you sure you want to delete this data?
+					Cabut akses user ini ke aplikasi Money? Akun dan aksesnya di aplikasi lain tetap ada.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-soft btn-secondary" data-overlay="#modal-delete">Close</button>
 					<form id="delete-form" method="POST" class="inline">
 						@csrf
 						@method('DELETE')
-						<button type="submit" class="btn btn-error">Delete</button>
+						<button type="submit" class="btn btn-error">Cabut akses</button>
 					</form>
 				</div>
 			</div>

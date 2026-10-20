@@ -22,7 +22,7 @@ class MenuObserver
             'guard_name' => 'web',
         ]);
 
-        $admin = Role::findByName('admin', 'web');
+        $admin = Role::findByName('money.admin', 'web');
 
         if ($admin && ! $admin->hasPermissionTo($permission)) {
             $admin->givePermissionTo($permission);

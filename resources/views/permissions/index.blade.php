@@ -23,7 +23,7 @@
 					</a>
 				@endif
 			</div>
-			@can('create-permissions')
+			@can('permissions.create')
 				<div class="flex">
 					<a href="{{ route('permissions.create') }}" class="btn btn-sm btn-primary rounded-sm">
 						<span class="icon-[tabler--plus] size-5"></span>
@@ -51,13 +51,13 @@
 							<td><span class="badge badge-soft badge-info text-xs">{{ $permission->guard_name }}</span></td>
 							<td>{{ $permission->created_at->format('d M Y') }}</td>
 							<td>
-								@can('edit-permissions')
+								@can('permissions.edit')
 									<a href="{{ route('permissions.edit', $permission->id) }}"
 										class="btn btn-circle btn-text btn-sm hover:text-warning" aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-permissions')
+								@can('permissions.delete')
 									<button type="button" class="delete-button btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete" data-overlay="#modal-delete"
 										data-action="{{ route('permissions.destroy', $permission->id) }}">

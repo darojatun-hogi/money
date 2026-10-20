@@ -16,7 +16,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 1,
             'is_active'       => true,
-            'permission_name' => 'view-dashboard',
+            'permission_name' => 'money.dashboard.view',
         ]);
 
         // Master Finance dropdown parent
@@ -36,7 +36,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 1,
             'is_active'       => true,
-            'permission_name' => 'view-categories',
+            'permission_name' => 'money.categories.view',
         ]);
 
         Menu::firstOrCreate(['name' => 'Nama Transaksi', 'parent_id' => $masterFinanceParent->id], [
@@ -45,7 +45,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 2,
             'is_active'       => true,
-            'permission_name' => 'view-transaction-names',
+            'permission_name' => 'money.transaction-names.view',
         ]);
 
         // Finance dropdown parent
@@ -65,7 +65,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 1,
             'is_active'       => true,
-            'permission_name' => 'view-wallets',
+            'permission_name' => 'money.wallets.view',
         ]);
 
         Menu::firstOrCreate(['name' => 'Transaksi', 'parent_id' => $financeParent->id], [
@@ -74,7 +74,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 2,
             'is_active'       => true,
-            'permission_name' => 'view-transactions',
+            'permission_name' => 'money.transactions.view',
         ]);
 
 		Menu::updateOrCreate(['route_name' => 'stock'], [
@@ -94,7 +94,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => 'Access Management',
             'sort_order'      => 4,
             'is_active'       => true,
-            'permission_name' => 'view-users',
+            'permission_name' => 'users.view',
         ]);
 
         // Dropdown parent — no route, no permission (visibility governed by children)
@@ -115,7 +115,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 1,
             'is_active'       => true,
-            'permission_name' => 'view-roles',
+            'permission_name' => 'roles.view',
         ]);
 
         Menu::firstOrCreate(['name' => 'Permissions', 'parent_id' => $rolesParent->id], [
@@ -124,7 +124,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 2,
             'is_active'       => true,
-            'permission_name' => 'view-permissions',
+            'permission_name' => 'permissions.view',
         ]);
 
         // Menus management (child of Roles & Permission dropdown)
@@ -134,7 +134,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => null,
             'sort_order'      => 3,
             'is_active'       => true,
-            'permission_name' => 'view-menus',
+            'permission_name' => 'money.menus.view',
         ]);
 
         // Feedback — user: submit, admin: manage
@@ -145,7 +145,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => 'Account',
             'sort_order'      => 6,
             'is_active'       => true,
-            'permission_name' => 'create-feedbacks',
+            'permission_name' => 'money.feedbacks.create',
         ]);
 
         Menu::firstOrCreate(['name' => 'Kelola Feedback'], [
@@ -155,7 +155,7 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'group'           => 'Account',
             'sort_order'      => 7,
             'is_active'       => true,
-            'permission_name' => 'view-feedbacks',
+            'permission_name' => 'money.feedbacks.view',
         ]);
 
         // Account group — profile (no permission = always visible)

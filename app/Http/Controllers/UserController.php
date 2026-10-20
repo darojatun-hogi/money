@@ -6,21 +6,23 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Role;
 
+// Tabel users dipakai bersama banyak app: halaman ini hanya mengelola user & role milik app ini
 class UserController extends Controller
 {
     public function index(Request $request)
     {
         $this->authorize('viewAny', User::class);
-        $query = User::with('roles');
+        $query = User::with('roles')->withAppAccess();
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('username', 'like', '%' . $request->search . '%');
+                $q->where('name', 'ilike', '%' . $request->search . '%')
+                    ->orWhere('email', 'ilike', '%' . $request->search . '%')
+                    ->orWhere('username', 'ilike', '%' . $request->search . '%');
             });
         }
 
@@ -29,7 +31,7 @@ class UserController extends Controller
         }
 
         $users = $query->latest()->paginate(10)->onEachSide(1)->withQueryString();
-        $roles  = Role::orderBy('name')->get();
+        $roles  = Role::forApp()->orderBy('name')->get();
 
         return view('users.index', compact('users', 'roles'));
     }
@@ -37,7 +39,7 @@ class UserController extends Controller
     public function create()
     {
         $this->authorize('create', User::class);
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::forApp()->orderBy('name')->get();
         return view('users.create', compact('roles'));
     }
 
@@ -50,7 +52,7 @@ class UserController extends Controller
             'email'    => 'required|email|unique:supabase.users,email',
             'password' => ['required', Password::min(8)],
             'roles'    => 'nullable|array',
-            'roles.*'  => 'exists:supabase.roles,name',
+            'roles.*'  => [Rule::in(Role::forApp()->pluck('name'))],
         ]);
 
         $user = User::create([
@@ -60,7 +62,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->syncRoles($request->filled('roles') ? $request->roles : ['user']);
+        $user->syncAppRoles($request->filled('roles') ? $request->roles : [Role::appPrefix().'user']);
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -69,7 +71,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $this->authorize('update', $user);
-        $roles        = Role::orderBy('name')->get();
+        $roles        = Role::forApp()->orderBy('name')->get();
         $currentRoles = $user->roles->pluck('name')->toArray();
         return view('users.edit', compact('user', 'roles', 'currentRoles'));
     }
@@ -84,7 +86,7 @@ class UserController extends Controller
             'email'    => 'required|email|unique:supabase.users,email,' . $user->id,
             'password' => ['nullable', Password::min(8)],
             'roles'    => 'required|array',
-            'roles.*'  => 'exists:supabase.roles,name',
+            'roles.*'  => [Rule::in(Role::forApp()->pluck('name'))],
         ]);
 
         $user->update([
@@ -94,21 +96,22 @@ class UserController extends Controller
             ...($request->filled('password') ? ['password' => Hash::make($request->password)] : []),
         ]);
 
-        $user->syncRoles($request->roles ?? []);
+        $user->syncAppRoles($request->roles ?? []);
 
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
+    // Akun dipakai app lain juga, jadi "hapus" di sini = cabut akses ke app ini, bukan hapus akun
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
         $this->authorize('delete', $user);
 
         if ($user->id === Auth::id()) {
-            return back()->with('error', 'Cannot delete your own account.');
+            return back()->with('error', 'Tidak bisa mencabut akses akun sendiri.');
         }
 
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User successfully deleted.');
+        $user->syncAppRoles([]);
+        return redirect()->route('users.index')->with('success', 'Akses user ke aplikasi ini dicabut.');
     }
 }

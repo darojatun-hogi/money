@@ -33,7 +33,7 @@
 				</div>
 			</form>
 
-			@can('create-wallets')
+			@can('money.wallets.create')
 				<div class="w-full lg:w-auto">
 					<a href="{{ route('wallets.create') }}" class="btn btn-sm btn-primary rounded-sm w-full lg:w-auto justify-center">
 						<span class="icon-[tabler--plus] size-5"></span>
@@ -73,13 +73,13 @@
 							<td class="text-base-content/70">{{ $wallet->description ?? '-' }}</td>
 							<td>{{ $wallet->created_at->format('d M Y') }}</td>
 							<td>
-								@can('edit-wallets')
+								@can('money.wallets.edit')
 									<a href="{{ route('wallets.edit', $wallet) }}"
 										class="btn btn-circle btn-text btn-sm hover:text-warning" aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-wallets')
+								@can('money.wallets.delete')
 									<button type="button" class="delete-btn btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete"
 										data-overlay="#modal-delete"

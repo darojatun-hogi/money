@@ -33,7 +33,7 @@
 				</div>
 			</form>
 
-			@can('create-categories')
+			@can('money.categories.create')
 				<div class="w-full lg:w-auto">
 					<a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary rounded-sm w-full lg:w-auto justify-center">
 						<span class="icon-[tabler--plus] size-5"></span>
@@ -70,13 +70,13 @@
 							<td class="text-base-content/70">{{ $category->description ?? '-' }}</td>
 							<td>{{ $category->transaction_names_count ?? $category->transactionNames()->count() }}</td>
 							<td>
-								@can('edit-categories')
+								@can('money.categories.edit')
 									<a href="{{ route('categories.edit', $category) }}"
 										class="btn btn-circle btn-text btn-sm hover:text-warning" aria-label="Edit">
 										<span class="icon-[tabler--pencil] size-5"></span>
 									</a>
 								@endcan
-								@can('delete-categories')
+								@can('money.categories.delete')
 									<button type="button" class="delete-btn btn btn-circle btn-text btn-sm hover:text-error"
 										aria-haspopup="dialog" aria-expanded="false" aria-controls="modal-delete"
 										data-overlay="#modal-delete"
