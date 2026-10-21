@@ -77,16 +77,6 @@ class MenuSeeder extends \Illuminate\Database\Seeder
             'permission_name' => 'money.transactions.view',
         ]);
 
-		Menu::updateOrCreate(['route_name' => 'stock'], [
-			'name'            => 'Saham',
-			'icon'            => 'tabler:chart-line',
-			'parent_id'       => null,
-			'group'           => 'Finance',
-            'sort_order'      => 4,
-            'is_active'       => true,
-            'permission_name' => null,
-        ]);
-
         // User, role & permission dikelola di hub SSO (auth.elips.id)
         $users = Menu::firstOrCreate(['name' => 'Kelola Akses'], [
             'icon'            => 'tabler:shield-lock',

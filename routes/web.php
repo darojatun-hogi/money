@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StockController;
 
 if (app()->isLocal()) {
     Route::get('/mail-test', function () {
@@ -63,5 +62,7 @@ Route::middleware(['auth', 'app.access', 'verified'])->group(function () {
     // Feedback
     Route::resource('feedbacks', FeedbackController::class)->except(['edit']);
 
-    Route::get('/stock',[StockController::class,'index'])->name('stock');
 });
+
+// Menu saham pindah ke app tersendiri
+Route::redirect('stock', 'https://stock.elips.id');
