@@ -3,6 +3,7 @@ import { Notyf } from 'notyf';
 import 'flyonui/flyonui.js';
 import 'iconify-icon';
 import './tour';
+import './motion';
 import ApexCharts from 'apexcharts';
 window.ApexCharts = ApexCharts;
 
