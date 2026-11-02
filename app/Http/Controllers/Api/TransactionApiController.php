@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Transaction;
 use App\Models\TransactionName;
 use App\Models\Wallet;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,18 +38,28 @@ class TransactionApiController extends Controller
             'category'         => 'nullable|string',
             'description'      => 'nullable|string|max:500',
             'date'             => 'required|date',
+            // Untuk impor otomatis (n8n): Message-Id email penolak duplikat, dan wallet pengganti bila nama wallet tidak ditemukan
+            'email_message_id' => 'nullable|string|max:255',
+            'wallet_fallback'  => 'nullable|string|max:255',
         ]);
 
-        $wallet = Wallet::where('name', $request->wallet_name)->where('user_id', $userId)->first();
+        if ($request->filled('email_message_id') && $existing = $this->findByEmail($userId, $request->email_message_id)) {
+            return $this->duplicateEmail($existing);
+        }
+
+        $wallet = $this->findWallet($userId, $request->wallet_name, $request->wallet_fallback);
         if (!$wallet) {
             return response()->json(['errors' => ['wallet_name' => ["Wallet \"{$request->wallet_name}\" tidak ditemukan."]]], 422);
         }
 
         $toWallet = null;
         if ($request->type === 'transfer') {
-            $toWallet = Wallet::where('name', $request->to_wallet_name)->where('user_id', $userId)->first();
+            $toWallet = $this->findWallet($userId, $request->to_wallet_name, $request->wallet_fallback);
             if (!$toWallet) {
                 return response()->json(['errors' => ['to_wallet_name' => ["Wallet \"{$request->to_wallet_name}\" tidak ditemukan."]]], 422);
+            }
+            if ($toWallet->id === $wallet->id) {
+                return response()->json(['errors' => ['to_wallet_name' => ["Wallet asal dan tujuan sama ({$wallet->name})."]]], 422);
             }
         }
 
@@ -67,26 +78,32 @@ class TransactionApiController extends Controller
             }
         }
 
-        $transaction = DB::transaction(function () use ($request, $wallet, $toWallet, $transactionNameId, $categoryId, $userId) {
-            $isTransfer  = $request->type === 'transfer';
-            $transaction = Transaction::create([
-                'type'                => $request->type,
-                'amount'              => $request->amount,
-                'transfer_fee'        => $isTransfer ? ($request->transfer_fee ?? 0) : 0,
-                'fee_bearer'          => $isTransfer ? ($request->fee_bearer ?? 'sender') : null,
-                'wallet_id'           => $wallet->id,
-                'to_wallet_id'        => $isTransfer ? $toWallet->id : null,
-                'transaction_name_id' => $transactionNameId,
-                'category_id'         => $categoryId,
-                'description'         => $request->description,
-                'date'                => $request->date,
-                'user_id'             => $userId,
-            ]);
+        try {
+            $transaction = DB::transaction(function () use ($request, $wallet, $toWallet, $transactionNameId, $categoryId, $userId) {
+                $isTransfer  = $request->type === 'transfer';
+                $transaction = Transaction::create([
+                    'type'                => $request->type,
+                    'amount'              => $request->amount,
+                    'transfer_fee'        => $isTransfer ? ($request->transfer_fee ?? 0) : 0,
+                    'fee_bearer'          => $isTransfer ? ($request->fee_bearer ?? 'sender') : null,
+                    'wallet_id'           => $wallet->id,
+                    'to_wallet_id'        => $isTransfer ? $toWallet->id : null,
+                    'transaction_name_id' => $transactionNameId,
+                    'category_id'         => $categoryId,
+                    'description'         => $request->description,
+                    'email_message_id'    => $request->email_message_id,
+                    'date'                => $request->date,
+                    'user_id'             => $userId,
+                ]);
 
-            $this->applyWalletEffect($transaction);
+                $this->applyWalletEffect($transaction);
 
-            return $transaction;
-        });
+                return $transaction;
+            });
+        } catch (UniqueConstraintViolationException) {
+            // Email yang sama dikirim bersamaan; yang kalah balapan diperlakukan sebagai duplikat
+            return $this->duplicateEmail($this->findByEmail($userId, $request->email_message_id));
+        }
 
         $transaction->load(['wallet:id,uuid,name', 'toWallet:id,uuid,name', 'category:id,uuid,name,type', 'transactionName:id,uuid,name']);
 
@@ -102,6 +119,31 @@ class TransactionApiController extends Controller
         $transaction->load(['wallet:id,uuid,name', 'toWallet:id,uuid,name', 'category:id,uuid,name,type', 'transactionName:id,uuid,name']);
 
         return response()->json(['data' => $transaction]);
+    }
+
+    // Wallet dicari berdasarkan nama; bila tidak ada dan $fallback diisi, pakai (atau buat) wallet $fallback
+    private function findWallet(int $userId, string $name, ?string $fallback): ?Wallet
+    {
+        $wallet = Wallet::where('name', $name)->where('user_id', $userId)->first();
+
+        if ($wallet || !$fallback) {
+            return $wallet;
+        }
+
+        return Wallet::firstOrCreate(['name' => $fallback, 'user_id' => $userId]);
+    }
+
+    private function findByEmail(int $userId, string $messageId): ?Transaction
+    {
+        return Transaction::where('user_id', $userId)->where('email_message_id', $messageId)->first();
+    }
+
+    private function duplicateEmail(Transaction $transaction)
+    {
+        return response()->json([
+            'message' => 'Email ini sudah pernah diimpor.',
+            'data'    => ['uuid' => $transaction->uuid],
+        ], 409);
     }
 
     private function applyWalletEffect(Transaction $transaction): void

@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     protected $fillable = [
         'type', 'amount', 'transfer_fee', 'fee_bearer', 'wallet_id', 'to_wallet_id',
-        'transaction_name_id', 'category_id', 'description',
+        'transaction_name_id', 'category_id', 'description', 'email_message_id',
         'date', 'user_id',
     ];
 
