@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // Email kontak yang tampil di halaman Kebijakan Privasi dan Syarat & Ketentuan
+    'contact_email' => env('APP_CONTACT_EMAIL', 'support@elips.id'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

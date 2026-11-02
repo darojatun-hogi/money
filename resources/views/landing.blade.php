@@ -162,7 +162,9 @@
 				<a href="{{ url('/') }}" class="shrink-0 font-semibold text-base-content">Elips</a>
 				<div class="flex items-center gap-3 sm:gap-5">
 					<a href="{{ route('login') }}" class="whitespace-nowrap hover:text-base-content">Masuk</a>
-					<a href="{{ route('register') }}" class="whitespace-nowrap hover:text-base-content">Buat akun</a>
+					<a href="{{ route('register') }}" class="hidden whitespace-nowrap hover:text-base-content sm:inline">Buat akun</a>
+					<a href="{{ route('privacy') }}" class="whitespace-nowrap hover:text-base-content">Privasi</a>
+					<a href="{{ route('terms') }}" class="whitespace-nowrap hover:text-base-content">Syarat</a>
 					<span class="whitespace-nowrap">&copy; {{ date('Y') }}</span>
 				</div>
 			</div>

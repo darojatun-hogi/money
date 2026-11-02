@@ -30,6 +30,9 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::view('/privacy', 'legal.privacy')->name('privacy');
+Route::view('/terms', 'legal.terms')->name('terms');
+
 // SSO: login, register, reset password, dan verifikasi email ditangani hub (config/sso.php)
 Route::get('/login', [SsoController::class, 'login'])->name('login');
 Route::get('/register', [SsoController::class, 'register'])->name('register');
