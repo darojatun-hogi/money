@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>@yield('title') | Elips</title>
+		<link rel="canonical" href="{{ rtrim(config('app.url'), '/').'/'.ltrim(request()->path(), '/') }}">
 		<meta name="description" content="@yield('description')">
 		<script>
 			document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'mintlify');
